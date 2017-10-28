@@ -8,24 +8,19 @@ class Solution:
         """
         :type nums: List[int]
         :rtype: int
-        O(kn), where k is the number of most frequent elements in nums
+        O(n)
         """
         c = Counter(nums)
-        freq = [(t[1],t[0]) for t in c.items()]
-        freq.sort(reverse=True)
-        result = len(nums)
-        for t in freq:
-            if t[0] == freq[0][0]:
-                result = min(result, self.helper(nums, t[1]))
-        return result
-
-    def helper(self, nums, target):
-        i, j = 0, len(nums) - 1
-        while nums[i] != target:
-            i += 1
-        while nums[j] != target:
-            j -= 1
-        return j - i + 1
+        first, last = {}, {}
+        for i, v in enumerate(nums):
+            first.setdefault(v, i)
+            last[v] = i
+        deg = max(c.values())
+        minlen = len(nums)
+        for num in nums:
+            if c[num] == deg:
+                minlen = min(minlen, last[num] - first[num] + 1)
+        return minlen
 
 if __name__ == "__main__":
     sol = Solution()
