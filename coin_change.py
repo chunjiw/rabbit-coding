@@ -16,9 +16,10 @@ class Solution:
 
     def dp(self, target, coins):
         dp = [0 for i in range(target + 1)]
-        for i in range(1, target + 1):
-            for c in coins:
-                if i - c > 0:
+        dp[0] = 1
+        for c in coins:
+            for i in range(1, target + 1):
+                if i - c >= 0:
                     dp[i] += dp[i - c]
         return dp[-1]
 
@@ -36,5 +37,5 @@ class Solution:
 
 if __name__ == "__main__":
     sol = Solution()
-    result = sol.get_combinations(9, [2, 3])
+    result = sol.get_combinations(300, [1, 5, 10, 25, 100])
     print(result)
